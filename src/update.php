@@ -1,18 +1,17 @@
 <?php
-//nous allons vérifier la présence de $_POST
-if($_POST){ 
+if ($_POST) {
     if (
         isset($_POST['etat']) && !empty($_POST['etat']) &&
-        isset($_POST['entreprise']) && !empty($_POST['entreprise'])&&
-        isset($_POST['envoi']) && !empty($_POST['envoi'])&&
-        isset($_POST['relance']) && !empty($_POST['relance'])&&
-        isset($_POST['candidature']) && !empty($_POST['candidature'])&&
-        isset($_POST['methode']) && !empty($_POST['methode'])&&
-        isset($_POST['contrat']) && !empty($_POST['contrat'])&&
-        isset($_POST['poste']) && !empty($_POST['poste'])&&
-        isset($_POST['email']) && !empty($_POST['email'])&&
+        isset($_POST['entreprise']) && !empty($_POST['entreprise']) &&
+        isset($_POST['envoi']) && !empty($_POST['envoi']) &&
+        isset($_POST['relance']) && !empty($_POST['relance']) &&
+        isset($_POST['candidature']) && !empty($_POST['candidature']) &&
+        isset($_POST['methode']) && !empty($_POST['methode']) &&
+        isset($_POST['contrat']) && !empty($_POST['contrat']) &&
+        isset($_POST['poste']) && !empty($_POST['poste']) &&
+        isset($_POST['email']) && !empty($_POST['email']) &&
         isset($_POST['commentaire']) && !empty($_POST['commentaire'])
-    ) { //Si ça existe bien on fait en sorte de modifier les données
+    ) {
         require_once('connect.php');
         $entreprise = strip_tags($_POST['entreprise']);
         $envoi = strip_tags($_POST['envoi']);
@@ -23,50 +22,48 @@ if($_POST){
         $poste = strip_tags($_POST['poste']);
         $email = strip_tags($_POST['email']);
         $commentaire = strip_tags($_POST['commentaire']);
+        $etat = strip_tags($_POST['etat']);
         
-        $sql = "UPDATE stage SET entreprise = :entreprise, envoi = :envoi, relance = :relance, candidature= :candidature, methode = :methode, 
-        contrat = :contrat, poste = :poste, email = :email, commentaire = :commenaire WHERE id= :id";
+        $sql = "UPDATE stage SET entreprise = :entreprise, envoi = :envoi, relance = :relance, candidature = :candidature, methode = :methode, 
+        contrat = :contrat, poste = :poste, email = :email, commentaire = :commentaire, etat = :etat WHERE id = :id";
     
-
         $query = $db->prepare($sql);
-        $query->bindValue(":id", $id, PDO::PARAM_INT);
-        $query->bindValue(":entreprise", $entreprise, PDO::PARAM_STR); 
+        $query->bindValue(":id", $_GET['id'], PDO::PARAM_INT);
+        $query->bindValue(":entreprise", $entreprise, PDO::PARAM_STR);
+        $query->bindValue(":envoi", $envoi, PDO::PARAM_STR);
+        $query->bindValue(":relance", $relance, PDO::PARAM_STR);
         $query->bindValue(":candidature", $candidature, PDO::PARAM_STR);
-        $query->bindValue(":methode", $methode, PDO::PARAM_STR); 
+        $query->bindValue(":methode", $methode, PDO::PARAM_STR);
         $query->bindValue(":contrat", $contrat, PDO::PARAM_STR);
-        $query->bindValue(":email", $email, PDO::PARAM_STR); 
         $query->bindValue(":poste", $poste, PDO::PARAM_STR);
-        $query->bindValue(":commenaire", $commentaire, PDO::PARAM_STR);
+        $query->bindValue(":email", $email, PDO::PARAM_STR);
+        $query->bindValue(":commentaire", $commentaire, PDO::PARAM_STR);
+        $query->bindValue(":etat", $etat, PDO::PARAM_STR);
 
-        $query->bindValue(":envoi", $envoi, PDO::PARAM_INT);
-        $query->bindValue(":relance", $relance, PDO::PARAM_INT);
         $query->execute();
-        header("Location: index.php"); 
-    } else { 
-        echo "remplissez le formulaire";
+        header("Location: index.php");
+        exit;
+    } else {
+        echo "Remplissez le formulaire";
     }
-
 }
-if (isset($_GET['id']) && !empty($_GET['id'])) //si l'id de l'url existe et est rempli
- {
-require_once("connect.php");
-// echo $_GET["id"];
-$id = strip_tags($_GET["id"]);
-$sql = "SELECT * FROM stage WHERE id = :id";
-$query = $db->prepare($sql);
-$query->bindValue(':id', $id, PDO::PARAM_INT);
 
-$query->execute();
-$stage = $query->fetch(); 
-if(!$stage) {
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    require_once("connect.php");
+    $id = strip_tags($_GET["id"]);
+    $sql = "SELECT * FROM stage WHERE id = :id";
+    $query = $db->prepare($sql);
+    $query->bindValue(':id', $id, PDO::PARAM_INT);
+    $query->execute();
+    $stage = $query->fetch();
+    if (!$stage) {
+        header('Location: index.php');
+        exit;
+    }
+} else {
     header('Location: index.php');
-}  else {   require_once("disconnect.php");
+    exit;
 }
-
-} else { header('Location: index.php');
-
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -76,23 +73,56 @@ if(!$stage) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de mise à jour</title>
 </head>
-<body><title><?= $stage['entreprise'] ?></title>
-</head>
 <body>
-    <h1>Modification de <?= $stage['entreprise'] . ' ' . $stage['poste'] ?></h1>
-<form method="post">  
-    <label for="entreprise">
-        Entreprise
-    </label>
-    <input type="text" name='entreprise' value="<?= $stage['entreprise'] ?>" required>
+    <h1>Modification de <?= htmlspecialchars($stage['entreprise']) . ' ' . htmlspecialchars($stage['poste']) ?></h1>
+    <form method="post">
+    <label for="etat">État</label>
+        <input type="text" name='etat' value="<?= htmlspecialchars($stage['etat']) ?>" required>
 
-    <label for="last_name">
-        Nom
-    </label>
+    <label for="entreprise">Entreprise</label>
+        <input type="text" name='entreprise' value="<?= htmlspecialchars($stage['entreprise']) ?>" required>
+
+        <label for="envoi">Envoi</label>
+        <input type="date" name='envoi' value="<?= htmlspecialchars($stage['envoi']) ?>" required>
+
+        <label for="relance">Relance</label>
+        <input type="date" name='relance' value="<?= htmlspecialchars($stage['relance']) ?>" required>
+
+
+        <label for="candidature">Type de candidature</label>
+        <select name="candidature" id="candidature" value=""<?= htmlspecialchars($stage['candidature']) ?>required>
+            <option value="candidature spontanée">Candidature spontanée</option>
+            <option value="réponse à une offre d'emploi">Réponse à une offre d'emploi</option>
+        </select>
+
+        <label for="methode">Méthode d'envoi</label>
+        <select name="methode" id="methode" value="<?= htmlspecialchars($stage['methode']) ?>" required>
+            <option value="email">Email</option>
+            <option value="courrier">Courrier</option>
+            <option value="remise en main propre">Remise en main propre</option>
+        </select>       
     
-    <button>Modifier</button>
+        <label for="contrat">Type de contrat</label>
+        <select name="contrat" id="contrat" value="<?= htmlspecialchars($stage['contrat']) ?>" required>
+            <option value="cdd">CDD</option>
+            <option value="cdi">CDI</option>
+            <option value="interim">Intérim</option>
+            <option value="stage">Stage</option>
+            <option value="apprentissage">Apprentissage</option>
+        </select>
+
+        <label for="poste">Intitulé du Poste</label>
+        <input type="text" name='poste' value="<?= htmlspecialchars($stage['poste']) ?>" required>
+
+        <label for="email">Email</label>
+        <input type="email" name='email' value="<?= htmlspecialchars($stage['email']) ?>" required>
+
+        <label for="commentaire">Commentaire</label>
+        <textarea name="commentaire" required><?= htmlspecialchars($stage['commentaire']) ?></textarea>
+
+        <button>Modifier</button>
     </form>
-    <a href="index.php">Retour</a> 
-    <?php echo print_r($_POST);?>
+    <a href="index.php">Retour</a>
+    <?php echo print_r($_POST); ?>
 </body>
 </html>

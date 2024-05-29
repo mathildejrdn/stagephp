@@ -44,11 +44,12 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.6/dist/bootstrap-table.min.css">
   </head>
-  <body>
+  <body><h1>Recherches de stage</h1>
+  <a href='form.php?id=<?= htmlspecialchars($stage["id"]) ?>'>Ajouter un stage</a>
     <table data-toggle="table">
       <thead>
         <tr>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Etat</th>
           <th>Entreprise</th>
           <th>Date d'envoi</th>
@@ -67,7 +68,7 @@ try {
         foreach($stages as $stage){
         ?>
         <tr>
-          <td><?= htmlspecialchars($stage['id']) ?></td> 
+          <!-- <td><?= htmlspecialchars($stage['id']) ?></td>  -->
           <td><?= htmlspecialchars($stage['etat']) ?></td> 
           <td><?= htmlspecialchars($stage['entreprise']) ?></td> 
           <td><?= htmlspecialchars($stage['envoi']) ?></td> 
@@ -79,9 +80,9 @@ try {
           <td><?= htmlspecialchars($stage['email']) ?></td> 
           <td><?= htmlspecialchars($stage['commentaire']) ?></td> 
           <td>
-            <a href='update.php?id=<?= htmlspecialchars($stage["id"]) ?>'>MàJ</a>
+          <a href='update.php?id=<?= htmlspecialchars($stage["id"]) ?>'>MàJ</a>
             <a href='delete.php?id=<?= htmlspecialchars($stage["id"]) ?>'>Supprimer</a>
-            <a href='form.php?id=<?= htmlspecialchars($stage["id"]) ?>'>Ajouter</a>
+           
           </td>
         </tr>
         <?php

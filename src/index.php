@@ -1,17 +1,18 @@
 <?php
 session_start();
+require_once('connect.php');
 
 if (!isset($_SESSION['id'])) {
   header("Location: connexion.php");
   exit;
 }
 
-const DBHOST = 'db';
-const DBNAME = 'stage';
-const DBUSER = 'test';
-const DBPASS = 'test';
+// const DBHOST = 'db';
+// const DBNAME = 'stage';
+// const DBUSER = 'test';
+// const DBPASS = 'test';
 
-$dsn = "mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8";
+// $dsn = "mysql:host=" . DBHOST . ";dbname=" . DBNAME . ";charset=utf8";
 
 try {
     $db = new PDO($dsn, DBUSER, DBPASS);
@@ -35,7 +36,6 @@ try {
 <!doctype html>
 <html lang="fr">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Recherches de stage</title>
@@ -45,7 +45,8 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.6/dist/bootstrap-table.min.css">
   </head>
   <body><h1>Recherches de stage</h1>
-  <a href='form.php?id=<?= htmlspecialchars($stage["id"]) ?>'>Ajouter un stage</a>
+  <a href='form.php?id=<?= htmlspecialchars($stage["id"]) ?>' target="_blank">Ajouter un stage</a>
+
     <table data-toggle="table">
       <thead>
         <tr>
@@ -68,7 +69,7 @@ try {
         foreach($stages as $stage){
         ?>
         <tr>
-          <!-- <td><?= htmlspecialchars($stage['id']) ?></td>  -->
+          <!-- <td>//<?= htmlspecialchars($stage['id']) ?></td> -->
           <td><?= htmlspecialchars($stage['etat']) ?></td> 
           <td><?= htmlspecialchars($stage['entreprise']) ?></td> 
           <td><?= htmlspecialchars($stage['envoi']) ?></td> 

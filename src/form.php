@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.6/dist/bootstrap-table.min.css">
 </head>
 <body>
-    <h1>Ajouter un stage</h1>
+<div class="card">
+  <div class="card-header">
+  Ajoutez un nouveau stage
+  </div>
+  <div class="card-body">
     <form action="create.php" method="post">
         <label for="etat">État</label>
         <input type="text" name="etat" required>
@@ -52,7 +58,7 @@
         <label for="commentaire">Commentaires</label>
         <textarea id="commentaire" name="commentaire" required>Ici vos commentaires/compléments d'info</textarea>
 
-        <button type="submit">Ajouter</button>
+        <button type="submit">Ajouter</button></div></div>
     </form>
     <a href="index.php">Retour</a>
 </body>

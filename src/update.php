@@ -72,36 +72,42 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de mise à jour</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.6/dist/bootstrap-table.min.css">
 </head>
 <body>
-    <h1>Modification de <?= htmlspecialchars($stage['entreprise']) . ' ' . htmlspecialchars($stage['poste']) ?></h1>
-    <form method="post">
+    <h1><?= htmlspecialchars($stage['entreprise']) ?></h1>
+    <div class="card">
+  <div class="card-header">
+  Modification de la candidature
+  </div>
+  <div class="card-body"><form method="post">
     <label for="etat">État</label>
         <input type="text" name='etat' value="<?= htmlspecialchars($stage['etat']) ?>" required>
-
+<br>
     <label for="entreprise">Entreprise</label>
         <input type="text" name='entreprise' value="<?= htmlspecialchars($stage['entreprise']) ?>" required>
-
+<br>
         <label for="envoi">Envoi</label>
         <input type="date" name='envoi' value="<?= htmlspecialchars($stage['envoi']) ?>" required>
-
+<br>
         <label for="relance">Relance</label>
         <input type="date" name='relance' value="<?= htmlspecialchars($stage['relance']) ?>" required>
-
-
+<br>
         <label for="candidature">Type de candidature</label>
         <select name="candidature" id="candidature" value=""<?= htmlspecialchars($stage['candidature']) ?>required>
             <option value="candidature spontanée">Candidature spontanée</option>
             <option value="réponse à une offre d'emploi">Réponse à une offre d'emploi</option>
         </select>
-
+<br>
         <label for="methode">Méthode d'envoi</label>
         <select name="methode" id="methode" value="<?= htmlspecialchars($stage['methode']) ?>" required>
             <option value="email">Email</option>
             <option value="courrier">Courrier</option>
             <option value="remise en main propre">Remise en main propre</option>
         </select>       
-    
+    <br>
         <label for="contrat">Type de contrat</label>
         <select name="contrat" id="contrat" value="<?= htmlspecialchars($stage['contrat']) ?>" required>
             <option value="cdd">CDD</option>
@@ -110,19 +116,17 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             <option value="stage">Stage</option>
             <option value="apprentissage">Apprentissage</option>
         </select>
-
+<br>
         <label for="poste">Intitulé du Poste</label>
         <input type="text" name='poste' value="<?= htmlspecialchars($stage['poste']) ?>" required>
-
+<br>
         <label for="email">Email</label>
         <input type="email" name='email' value="<?= htmlspecialchars($stage['email']) ?>" required>
-
+<br>
         <label for="commentaire">Commentaire</label>
         <textarea name="commentaire" required><?= htmlspecialchars($stage['commentaire']) ?></textarea>
 
-        <button>Modifier</button>
-    </form>
-    <a href="index.php">Retour</a>
-    <?php echo print_r($_POST); ?>
+        <button>Modifier</button>     <a href="index.php">Retour</a>
+    </form></div></div>
 </body>
 </html>
